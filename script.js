@@ -35,12 +35,12 @@ todos.then((values) => {
 })
 
 const addTodo = async function() {
+    
         const todoValue = input.value;
         const newTodo = {description: todoValue , done: false};
         console.log(newTodo);
         await postTodo(newTodo);
 }  
-addTodo();
 
 function deleteCheck(e){
     console.log(e.target)
@@ -56,8 +56,8 @@ function deleteCheck(e){
         todo.classList.toggle('checked')
     }
 }
-// input.addEventListener('click', addTodo);
-button.addEventListener('click', todos, addTodo);
+// input.addEventListener('change', addTodo);
+button.addEventListener('click', addTodo);
 list.addEventListener('click', deleteCheck);
 
 
