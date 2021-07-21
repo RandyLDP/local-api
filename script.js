@@ -2,16 +2,16 @@ const input = document.querySelector('#todo-input')
 const list =document.querySelector('#list')
 const button = document.querySelector('#button-input')
 
-
-
-function addTask(event){
-    event.preventDefault();
+let todos = getTodos()
+todos.then((values) => {
+    values.forEach(element => {
 
     const newDiv = document.createElement('div')
     newDiv.classList.add("container");
 
     const newLI = document.createElement('li');
-    newLI.innerText= input.value;
+    newLI.setAttribute("id", element._id);
+    newLI.innerText= element.description;
     newLI.classList.add('item')
     newDiv.appendChild(newLI);
  
@@ -21,6 +21,7 @@ function addTask(event){
     checkButton.classList.add("check-btn")
 
     const deleteButton = document.createElement('button');
+    deleteButton.setAttribute("id", element._id)
     deleteButton.innerHTML = '<i class = "fas fa-trash"></i>';
     newDiv.appendChild(deleteButton) ;
     deleteButton.classList.add("delete-btn")
@@ -29,10 +30,17 @@ function addTask(event){
 
     list.appendChild(newDiv);
     input.value="";
+    })
 
-}
+})
 
-
+const addTodo = async function() {
+        const todoValue = input.value;
+        const newTodo = {description: todoValue , done: false};
+        console.log(newTodo);
+        await postTodo(newTodo);
+}  
+addTodo();
 
 function deleteCheck(e){
     console.log(e.target)
@@ -40,6 +48,7 @@ function deleteCheck(e){
     if (task.classList[0] === 'delete-btn'){
         const todo = task.parentElement;
         todo.remove();
+        deleteTodo(task.id)
     }
   
     else if (task.classList[0] === 'check-btn'){
@@ -47,16 +56,16 @@ function deleteCheck(e){
         todo.classList.toggle('checked')
     }
 }
-button.addEventListener('click', addTask);
+// input.addEventListener('click', addTodo);
+button.addEventListener('click', todos, addTodo);
 list.addEventListener('click', deleteCheck);
 
-getTodos()
 
-const data = {description: "buy oatmeal", done: false};
- fetch(apiUrl, {
-  method: "POST",
-  body: JSON.stringify(data),
-  headers: {
-      "Content-Type": "application/json",
-  },
-});
+// const data = {description: "buy oatmeal", done: false};
+//  fetch(apiUrl, {
+//   method: "POST",
+//   body: JSON.stringify(data),
+//   headers: {
+//       "Content-Type": "application/json",
+//   },
+// });
