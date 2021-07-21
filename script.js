@@ -2,9 +2,9 @@ const input = document.querySelector('#todo-input')
 const list =document.querySelector('#list')
 const button = document.querySelector('#button-input')
 
-let todos = getTodos()
-todos.then((values) => {
-    values.forEach(element => {
+const addTodosToDom = async () => {
+    const todos = await getTodos()
+    todos.forEach(element => {
 
     const newDiv = document.createElement('div')
     newDiv.classList.add("container");
@@ -32,7 +32,8 @@ todos.then((values) => {
     input.value="";
     })
 
-})
+}
+addTodosToDom();
 
 const addTodo = async function() {
     
@@ -56,11 +57,11 @@ function deleteCheck(e){
         todo.classList.toggle('checked')
     }
 }
-// input.addEventListener('change', addTodo);
+
 button.addEventListener('click', addTodo);
 list.addEventListener('click', deleteCheck);
 
-
+// input.addEventListener('change', addTodo);
 // const data = {description: "buy oatmeal", done: false};
 //  fetch(apiUrl, {
 //   method: "POST",
